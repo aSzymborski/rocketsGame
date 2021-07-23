@@ -14,6 +14,7 @@ import {
   toggleModal,
 } from "./utils.js";
 import { bindSettingsListeners } from "./settings/event-listeners.js";
+import { GAME_STATE } from "./game-state/game-state.js";
 
 const flyButton = document.querySelector(".button-fly");
 const rocketContainer = document.querySelector(".rockets-container");
@@ -114,8 +115,10 @@ const resetGame = () => {
 };
 
 const autoPlay = () => {
+  if (GAME_STATE.gameStatus === GameStates.started) return;
+
   const interval = setInterval(() => {
-    if (GAME_SETTINGS.gameState === GameStates.over) {
+    if (GAME_STATE.gameStatus === GameStates.over) {
       clearInterval(interval);
       return;
     }
@@ -125,7 +128,7 @@ const autoPlay = () => {
 };
 
 const getNextGameTurn = () => {
-  if (GAME_SETTINGS.gameState === GameStates.notStarted) {
+  if (GAME_STATE.gameStatus === GameStates.notStarted) {
     setGameState(GameStates.started);
   }
 

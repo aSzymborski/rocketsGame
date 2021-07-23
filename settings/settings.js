@@ -1,12 +1,12 @@
 import { rocketsImages, spaceImages } from "../constants.js";
-import { GameStates, GAME_SETTINGS_DEFAULTS } from "./constants.js";
+import { GAME_STATE } from "../game-state/game-state.js";
+import { GAME_SETTINGS_DEFAULTS } from "./constants.js";
 
 export const GAME_SETTINGS = {
   rocketsImage: GAME_SETTINGS_DEFAULTS.rocketsImage,
   rocketsImageIndex: GAME_SETTINGS_DEFAULTS.rocketsImageIndex,
   spaceImage: GAME_SETTINGS_DEFAULTS.spaceImage,
   spaceImageIndex: GAME_SETTINGS_DEFAULTS.spaceImageIndex,
-  gameState: GameStates.notStarted,
 };
 
 export const changeRockets = (image) => {
@@ -73,5 +73,5 @@ export const changeSpace = (image) => {
 };
 
 export const setGameState = (gameState) => {
-  GAME_SETTINGS.gameState = gameState;
+  GAME_STATE.gameStatus = gameState;
 };
