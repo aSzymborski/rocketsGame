@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SpeedRocket</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="world" id="reset">
+      <div class="rockets-container" id="reset">
+        <!-- <div class="rocket"></div> -->
+      </div>
+
+      <div class="ground"></div>
+    </div>
+    <div class="bottom-button">
+      <button class="button-highscore">
+        <img src="/assets/highscore2.png" alt="" />
+      </button>
+      <button class="button button-add-rocket">ADD ROCKET</button>
+
+      <button class="button button-fly">FLY UP</button>
+      <button class="button button-auto-play">AUTO PLAY</button>
+
+      <button class="button-settings">
+        <img src="/assets/red-icon-settings.png" alt="" />
+      </button>
+    </div>
+
+    <div class="modal" id="modal-1">
+      <div class="modal-content">
+        <h1>GAME OVER</h1>
+        <p>THE WINNER IS: <span class="winner"></span></p>
+      </div>
+      <button class="button button-modal-close">PLAY AGAIN</button>
+    </div>
+
+    <div class="modal" id="modal-2">
+      <div class="modal-content">
+        <h1>OPTIONS</h1>
+        <div class="options-row">
+          <!-- <p>CHANGE ROCKET</p> -->
+          <!-- <button class="button button-change-rocket">CHANGE ROCKET</button> -->
+          <button class="button-arrow" id="arrow-left-rocket"><</button>
+          <button class="button-thumbnail" id="rocket1">
+            <img src="/assets/rocket.svg" alt="rocket1" />
+          </button>
+          <button class="button-thumbnail" id="rocket2">
+            <img src="/assets/rocket2.svg" alt="rocket2" />
+          </button>
+          <button class="button-thumbnail" id="rocket3">
+            <img src="/assets/rocket3.png" alt="rocket3" />
+          </button>
+          <button class="button-arrow" id="arrow-right-rocket">></button>
+        </div>
+        <div class="options-row">
+          <!-- <p>CHANGE SPACE</p> -->
+          <!-- <button class="button button-change-space">CHANGE SPACE</button> -->
+          <button class="button-arrow" id="arrow-left-space"><</button>
+          <button class="button-thumbnail" id="space1">
+            <img src="/assets/space1.jpg" alt="" />
+          </button>
+          <button class="button-thumbnail" id="space2">
+            <img src="/assets/space2.jpg" alt="" />
+          </button>
+          <button class="button-thumbnail" id="space3">
+            <img src="/assets/space3.jpg" alt="" />
+          </button>
+          <button class="button-arrow" id="arrow-right-space">></button>
+        </div>
+        <button class="button button-modal-close" id="button-close-settings">
+          SAVE & CLOSE
+        </button>
+      </div>
+    </div>
+
+    <div class="modal modal-highscores" id="modal-3">
+      <div class="modal-content">
+        <h1>HIGHSCORES</h1>
+        <div class="score-board">
+          <!-- <p>1. <span class="rocket-id-points"></span></p>
+          <p>2. <span class="rocket-id-points"></span></p>
+          <p>3. <span class="rocked-id-points"></span></p> -->
+        </div>
+        <button class="button" id="button-reset-highscore">RESET</button>
+      </div>
+    </div>
+    <div class="modal modal-rename" id="modal-4">
+      <div class="modal-content">
+        <h1>YOUR NAME</h1>
+        <input class="input-rename" id="input-rename" type="text" />
+        <button
+          class="button button-modal-close"
+          id="button-close-modal-rename"
+        >
+          SAVE & CLOSE
+        </button>
+      </div>
+    </div>
+
+    <script type="module" src="/script.js"></script>
+  </body>
+</html>
