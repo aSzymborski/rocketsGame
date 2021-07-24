@@ -53,6 +53,10 @@ export const rocketList = [
 ];
 
 const addRocket = () => {
+  if (GAME_STATE.gameStatus === GameStates.started) {
+    return;
+  }
+
   const idRocket = rocketList.length + 1;
   const rocket = {
     id: idRocket,
