@@ -3,6 +3,7 @@ button {
 }
 
 .button {
+  font-size: 18px;
   display: block;
   margin: 10px auto 0;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
@@ -11,10 +12,6 @@ button {
   border: none;
   color: white;
   border-radius: 5px;
-}
-
-.button:hover {
-  background-color: rgb(212, 30, 30);
 }
 
 .bottom-button {
@@ -80,4 +77,33 @@ button {
   background-color: transparent;
   width: 50px;
   height: 60px;
+}
+
+.button-fly {
+  background-color: rgb(212, 30, 30);
+  font-size: 50px;
+  color: rgb(21, 255, 0);
+  padding: 10px 80px;
+}
+
+.button-fly:hover {
+  background-color: rgb(243, 0, 0);
+}
+
+.button-auto-play {
+  color: black;
+  background-color: rgb(211, 211, 4);
+}
+
+.button-auto-play:hover {
+  background-color: rgb(247, 247, 8);
+}
+
+.button-add-rocket {
+  color: black;
+  background-color: rgb(176, 213, 255);
+}
+
+.button-add-rocket:hover {
+  background-color: rgb(131, 184, 245);
 }
