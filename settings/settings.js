@@ -1,5 +1,6 @@
 import { rocketsImages, spaceImages, SETTINGS_LS_KEY } from "../constants.js";
 import { GAME_STATE } from "../game-state/game-state.js";
+import { saveInLs } from "../utils.js";
 import { GAME_SETTINGS_DEFAULTS } from "./constants.js";
 
 export const GAME_SETTINGS = {
@@ -10,10 +11,16 @@ export const GAME_SETTINGS = {
 };
 
 export const changeRockets = (image) => {
-  const rockets = document.querySelectorAll(".rocket");
-  for (let i = 0; i < rockets.length; i++) {
-    rockets[i].style.backgroundImage = "url(" + image + ")";
-  }
+  // const rockets = document.querySelectorAll(".rocket");
+  // for (let i = 0; i < rockets.length; i++) {
+  //   rockets[i].style.backgroundImage = "url(" + image + ")";
+  // }
+};
+
+export const changeSpace = (image) => {
+  const world = document.querySelector(".world");
+
+  world.style.backgroundImage = `url(${image})`;
 };
 
 export const getNextRocket = () => {
@@ -65,12 +72,6 @@ export const getPreviousSpace = () => {
   const image = spaceImages[indexImage];
 
   return image;
-};
-
-export const changeSpace = (image) => {
-  const world = document.querySelector(".world");
-
-  world.style.backgroundImage = `url(${image})`;
 };
 
 export const setGameState = (gameState) => {

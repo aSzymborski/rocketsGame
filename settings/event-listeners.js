@@ -1,4 +1,5 @@
 import { rocketsImages, spaceImages } from "../constants.js";
+import { saveInLs } from "../utils.js";
 import {
   changeRockets,
   getNextRocket,

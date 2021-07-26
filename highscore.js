@@ -1,5 +1,6 @@
-import { HIGHSCORE_LS_KEY, loadFromLs, saveInLs } from "./constants.js";
+import { HIGHSCORE_LS_KEY } from "./constants.js";
 import { rocketList } from "./script.js";
+import { loadFromLs, saveInLs } from "./utils.js";
 
 const scoreBoard = document.querySelector(".score-board");
 

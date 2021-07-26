@@ -1,4 +1,4 @@
-import { rocketsImages, spaceImages } from "./constants.js";
+import { spaceImages } from "./constants.js";
 import {
   addRocketToHighscores,
   grantPoints,
@@ -7,14 +7,10 @@ import {
 } from "./highscore.js";
 import { GAME_SETTINGS, setGameState } from "./settings/settings.js";
 import { GameStates, GAME_SETTINGS_DEFAULTS } from "./settings/constants.js";
-import {
-  modalClose,
-  modalOpen,
-  getRandomNumber,
-  toggleModal,
-} from "./utils.js";
+import { modalClose, modalOpen, toggleModal } from "./utils.js";
 import { bindSettingsListeners } from "./settings/event-listeners.js";
 import { GAME_STATE } from "./game-state/game-state.js";
+import { Rocket } from "./rockets/Rocket.class.js";
 
 const flyButton = document.querySelector(".button-fly");
 const rocketContainer = document.querySelector(".rockets-container");
@@ -34,68 +30,47 @@ const buttonCloseModalRename = document.querySelector(
   "#button-close-modal-rename"
 );
 const modalRename = document.querySelector("#modal-4");
-const inputRename = document.getElementById("input-rename").value;
+const inputRename = document.querySelector("#input-rename").value;
 const buttonAutoPlay = document.querySelector(".button-auto-play");
 
-export const rocketList = [
-  // {
-  //   id: Math.random(),
-  //   altitude: GAME_SETTINGS_DEFAULTS.rocketAltitude,
-  // },
-  // {
-  //   id: Math.random(),
-  //   altitude: GAME_SETTINGS_DEFAULTS.rocketAltitude,
-  // },
-  // {
-  //   id: Math.random(),
-  //   altitude: GAME_SETTINGS_DEFAULTS.rocketAltitude,
-  // },
-];
+export const rocketList = [];
 
-const addRocket = () => {
-  if (GAME_STATE.gameStatus === GameStates.started) {
-    return;
-  }
+const addRocketToList = () => {
+  if (GAME_STATE.gameStatus === GameStates.started) return;
 
-  const idRocket = rocketList.length + 1;
-  const rocket = {
-    id: idRocket,
-    altitude: GAME_SETTINGS_DEFAULTS.rocketAltitude,
-  };
-  rocketList.push(rocket);
-  addRocketToHighscores(idRocket);
-  rocketContainer.append(createRocket());
-  console.log(rocket.id);
-  return rocket.id;
+  const newRocket = new Rocket();
+  rocketList.push(newRocket);
+  addRocketToHighscores(newRocket.id);
+
+  renderRockets();
 };
 
 const renderRockets = () => {
-  const rockets = document.querySelectorAll(".rocket");
+  rocketContainer.innerHTML = "";
 
-  if (rockets.length > 0) {
-    for (let i = 0; i < rockets.length; i++) {
-      rockets[i].style.transform =
-        "translateY(-" + rocketList[i].altitude + "px)";
-    }
+  for (let i = 0; i < rocketList.length; i++) {
+    const rocketdiv = document.createElement("div");
+    rocketdiv.classList.add("rocket");
+    rocketdiv.style.backgroundImage = `url(${rocketList[i].img})`;
+
+    rocketContainer.append(rocketdiv);
   }
 };
 
-const createRocket = () => {
-  const rocketdiv = document.createElement("div");
-  rocketdiv.classList.add("rocket");
-  rocketdiv.setAttribute("id", Math.random);
-  rocketdiv.style.backgroundImage = `url(${
-    rocketsImages[GAME_SETTINGS.rocketsImageIndex]
-  })`;
+const renderRocketsAlt = () => {
+  const rockets = document.querySelectorAll(".rocket");
+  if (rockets.length <= 0) return;
 
-  return rocketdiv;
+  rockets.forEach((rocket, i) => {
+    rocket.style.transform = "translateY(-" + rocketList[i].alt + "px)";
+  });
 };
 
 const gameOver = () => {
   modalOpen(modalGameOver);
   let highestAlt;
   for (let i = 0; i < rocketList.length; i += 1) {
-    if (rocketList[i].altitude >= (highestAlt?.altitude || 0)) {
+    if (rocketList[i].alt >= (highestAlt?.alt || 0)) {
       highestAlt = rocketList[i];
     }
   }
@@ -110,12 +85,11 @@ const gameOver = () => {
 
 const resetGame = () => {
   for (let i = 0; i < rocketList.length; i++) {
-    rocketList[i].altitude = GAME_SETTINGS_DEFAULTS.rocketAltitude;
+    rocketList[i].alt = GAME_SETTINGS_DEFAULTS.rocketAltitude;
   }
-  setGameState(GameStates.notStarted);
 
-  renderRockets();
-  createRocket();
+  setGameState(GameStates.notStarted);
+  renderRocketsAlt();
 };
 
 const autoPlay = () => {
@@ -132,19 +106,14 @@ const autoPlay = () => {
 };
 
 const getNextGameTurn = () => {
+  const valueExceeded = rocketList.some((roc) => roc.alt > finishLine);
+
   if (GAME_STATE.gameStatus === GameStates.notStarted) {
     setGameState(GameStates.started);
   }
 
-  for (let i = 0; i < rocketList.length; i++) {
-    const flyValue = getRandomNumber(10, 50);
-    const newAltitude = rocketList[i].altitude + flyValue;
-    rocketList[i].altitude = newAltitude;
-  }
-
-  renderRockets();
-
-  const valueExceeded = rocketList.some((roc) => roc.altitude > finishLine);
+  rocketList.forEach((rocket) => rocket.flyUp());
+  renderRocketsAlt();
 
   if (valueExceeded) {
     clearInterval(GAME_SETTINGS.autoplayInterval);
@@ -153,8 +122,8 @@ const getNextGameTurn = () => {
 };
 
 const setupGame = () => {
-  addRocket();
-  renderRockets();
+  addRocketToList();
+  renderRocketsAlt();
   const currentBgImageIndex = GAME_SETTINGS.spaceImageIndex;
   const image = spaceImages[currentBgImageIndex];
 
@@ -187,7 +156,7 @@ buttonHighscore.addEventListener("click", () => {
 buttonResetHighscore.addEventListener("click", resetHighscores);
 
 buttonAddRocket.addEventListener("click", () => {
-  addRocket();
+  addRocketToList();
   renderHighscores();
 });
 
