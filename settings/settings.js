@@ -1,4 +1,4 @@
-import { rocketsImages, spaceImages } from "../constants.js";
+import { rocketsImages, spaceImages, SETTINGS_LS_KEY } from "../constants.js";
 import { GAME_STATE } from "../game-state/game-state.js";
 import { GAME_SETTINGS_DEFAULTS } from "./constants.js";
 
@@ -25,6 +25,7 @@ export const getNextRocket = () => {
 
   const indexRocket = GAME_SETTINGS.rocketsImageIndex;
   const image = rocketsImages[indexRocket];
+  console.log(image);
 
   return image;
 };

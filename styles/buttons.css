@@ -80,6 +80,7 @@ button {
 }
 
 .button-fly {
+  border-radius: 10px;
   background-color: rgb(212, 30, 30);
   font-size: 50px;
   color: rgb(21, 255, 0);

@@ -1,18 +1,7 @@
-import { HIGHSCORE_LS_KEY } from "./constants.js";
+import { HIGHSCORE_LS_KEY, loadFromLs, saveInLs } from "./constants.js";
 import { rocketList } from "./script.js";
 
 const scoreBoard = document.querySelector(".score-board");
-
-const loadHighscores = () => {
-  const currentValue = localStorage.getItem(HIGHSCORE_LS_KEY);
-  return JSON.parse(currentValue);
-};
-
-const saveHighscores = (newValue) => {
-  if (!newValue) return;
-  const stringNewValue = JSON.stringify(newValue);
-  localStorage.setItem(HIGHSCORE_LS_KEY, stringNewValue);
-};
 
 const addPoints = (id, highscores) => {
   if (highscores) {
@@ -27,15 +16,16 @@ const addPoints = (id, highscores) => {
       };
     }
   }
+  console.log(highscores);
   return highscores;
 };
 
 export const grantPoints = (id) => {
-  const currentHighscores = loadHighscores() || {};
+  const currentHighscores = loadFromLs(HIGHSCORE_LS_KEY) || {};
 
   const newHighscores = addPoints(id, currentHighscores);
 
-  saveHighscores(newHighscores);
+  saveInLs(newHighscores, HIGHSCORE_LS_KEY);
 };
 
 const hs = {
@@ -45,7 +35,7 @@ const hs = {
 };
 
 export const addRocketToHighscores = (id) => {
-  let highscores = loadHighscores();
+  let highscores = loadFromLs(HIGHSCORE_LS_KEY);
 
   highscores = {
     ...highscores,
@@ -54,13 +44,13 @@ export const addRocketToHighscores = (id) => {
     },
   };
 
-  saveHighscores(highscores);
+  saveInLs(highscores, HIGHSCORE_LS_KEY);
 };
 
 export const renderHighscores = () => {
   scoreBoard.innerHTML = "";
 
-  const highscores = loadHighscores();
+  const highscores = loadFromLs(HIGHSCORE_LS_KEY);
   const isEmpty = JSON.stringify(highscores) === "{}";
 
   if (!highscores || isEmpty) {
@@ -116,6 +106,6 @@ export const createScoreElement = (position, rocketNo, score) => {
 };
 
 export const resetHighscores = () => {
-  saveHighscores({});
+  saveInLs({}, HIGHSCORE_LS_KEY);
   renderHighscores();
 };
