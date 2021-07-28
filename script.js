@@ -11,11 +11,12 @@ import { modalClose, modalOpen, toggleModal } from "./utils.js";
 import { bindSettingsListeners } from "./settings/event-listeners.js";
 import { GAME_STATE } from "./game-state/game-state.js";
 import { Rocket } from "./rockets/Rocket.class.js";
+import { ProgressBar } from "./progress-bar/Progress-bar.class.js";
 
 const flyButton = document.querySelector(".button-fly");
 const rocketContainer = document.querySelector(".rockets-container");
 const world = document.querySelector(".world");
-const finishLine = world.clientHeight;
+export const finishLine = world.clientHeight - 80;
 const winnerSpanId = document.querySelector(".winner");
 const buttonPlayAgain = document.querySelector(".button-modal-close");
 const buttonSettings = document.querySelector(".button-settings");
@@ -32,6 +33,7 @@ const buttonCloseModalRename = document.querySelector(
 const modalRename = document.querySelector("#modal-4");
 const inputRename = document.querySelector("#input-rename").value;
 const buttonAutoPlay = document.querySelector(".button-auto-play");
+const progressBarFill = document.querySelector(".progress-bar-fill");
 
 export const rocketList = [];
 
@@ -102,7 +104,7 @@ const autoPlay = () => {
     }
 
     getNextGameTurn();
-  }, 100);
+  }, 300);
 };
 
 const getNextGameTurn = () => {
@@ -122,6 +124,9 @@ const getNextGameTurn = () => {
 };
 
 const setupGame = () => {
+  new ProgressBar(document.querySelector(".progress-bar"), 0);
+
+  bindSettingsListeners();
   addRocketToList();
   renderRocketsAlt();
   const currentBgImageIndex = GAME_SETTINGS.spaceImageIndex;
@@ -131,7 +136,6 @@ const setupGame = () => {
   renderHighscores();
 };
 
-bindSettingsListeners();
 setupGame();
 
 buttonCloseSettings.addEventListener("click", () => {

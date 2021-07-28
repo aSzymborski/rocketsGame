@@ -1,0 +1,23 @@
+.progress-bar {
+  position: absolute;
+  display: flex;
+  flex-flow: column-reverse;
+  right: 10px;
+  border-radius: 10px;
+  height: 100%;
+  width: 50px;
+}
+
+.progress-bar-fill {
+  z-index: 1;
+  border-radius: 10px;
+  height: 100%;
+  background-color: rgb(12, 78, 78);
+  transition: all 250ms linear;
+}
+
+.progress-bar-alt {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  color: bisque;
+}

@@ -29,12 +29,6 @@ export const grantPoints = (id) => {
   saveInLs(newHighscores, HIGHSCORE_LS_KEY);
 };
 
-const hs = {
-  asdf: {
-    score: 123,
-  },
-};
-
 export const addRocketToHighscores = (id) => {
   let highscores = loadFromLs(HIGHSCORE_LS_KEY);
 
