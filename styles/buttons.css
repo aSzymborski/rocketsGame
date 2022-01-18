@@ -107,3 +107,14 @@ button {
 .button-add-rocket:hover {
   background-color: rgb(131, 184, 245);
 }
+
+.button-small {
+  font-size: 12px;
+  display: none;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  padding: 10px;
+  background-color: rgb(180, 23, 23);
+  border: none;
+  color: white;
+  border-radius: 5px;
+}

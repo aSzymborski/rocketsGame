@@ -32,11 +32,42 @@
 }
 
 .rocket {
+  position: relative;
   width: 80px;
   height: 80px;
   background-size: contain;
   transition: transform 0.2s linear;
   background-repeat: no-repeat;
+}
+
+.rocket:hover {
+  transform: scale(1.2);
+  transition: all 250ms linear;
+}
+
+.rocket .button-small {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -20px;
+}
+
+.rocket:hover .button-small {
+  display: block;
+}
+
+.rocket .name {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  padding: 5px;
+  font-size: 12px;
+  color: #323232;
+  top: -30px;
+  border-radius: 5px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  text-transform: capitalize;
 }
 
 .modal {
@@ -57,24 +88,9 @@
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   color: white;
   border-radius: 5px;
-  background-color: rgb(180, 23, 23);
+  background-color: black;
   padding: 30px;
   border: 1px solid red;
-}
-
-#modal-2 .modal-content {
-  background-color: black;
-  padding: 30px;
-}
-
-#modal-3 .modal-content {
-  background-color: black;
-  padding: 30px;
-}
-
-#modal-4 .modal-content {
-  background-color: black;
-  padding: 30px;
 }
 
 .modal-open {
@@ -103,6 +119,11 @@
   left: 30px;
 }
 
+.modal-highscores .modal-content {
+  max-height: 90vh;
+  overflow-y: scroll;
+}
+
 .modal-rename {
   background-color: transparent;
 }
@@ -116,9 +137,4 @@
   border-radius: 10px;
   border: 2px solid red;
   margin: 30px 0;
-}
-
-.rocket:hover {
-  transform: scale(1.2);
-  transition: all 250ms linear;
 }

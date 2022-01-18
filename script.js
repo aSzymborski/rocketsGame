@@ -10,11 +10,11 @@ import { GameStates, GAME_SETTINGS_DEFAULTS } from "./settings/constants.js";
 import { modalClose, modalOpen, toggleModal } from "./utils.js";
 import { bindSettingsListeners } from "./settings/event-listeners.js";
 import { GAME_STATE } from "./game-state/game-state.js";
-import { Rocket } from "./rockets/Rocket.class.js";
-import { ProgressBar } from "./progress-bar/Progress-bar.class.js";
+import { rocketList } from "./rocket-list/RocketList.class.js";
+import { progressbar } from "./progress-bar/ProgressBar.class.js";
 
 const flyButton = document.querySelector(".button-fly");
-const rocketContainer = document.querySelector(".rockets-container");
+
 const world = document.querySelector(".world");
 export const finishLine = world.clientHeight - 80;
 const winnerSpanId = document.querySelector(".winner");
@@ -27,36 +27,27 @@ const modalHighscore = document.querySelector("#modal-3");
 const buttonHighscore = document.querySelector(".button-highscore");
 const buttonResetHighscore = document.querySelector("#button-reset-highscore");
 const buttonAddRocket = document.querySelector(".button-add-rocket");
-const buttonCloseModalRename = document.querySelector(
+const buttonCloseModalSettingsRocket = document.querySelector(
   "#button-close-modal-rename"
 );
-const modalRename = document.querySelector("#modal-4");
+const modalSettingsRocket = document.querySelector("#modal-settings-rocket");
 const inputRename = document.querySelector("#input-rename").value;
 const buttonAutoPlay = document.querySelector(".button-auto-play");
-const progressBarFill = document.querySelector(".progress-bar-fill");
 
-export const rocketList = [];
-
-const addRocketToList = () => {
+const addRocket = () => {
   if (GAME_STATE.gameStatus === GameStates.started) return;
 
-  const newRocket = new Rocket();
-  rocketList.push(newRocket);
+  const newRocket = rocketList.add();
   addRocketToHighscores(newRocket.id);
 
   renderRockets();
 };
 
 const renderRockets = () => {
+  const rocketContainer = document.querySelector(".rockets-container");
+
   rocketContainer.innerHTML = "";
-
-  for (let i = 0; i < rocketList.length; i++) {
-    const rocketdiv = document.createElement("div");
-    rocketdiv.classList.add("rocket");
-    rocketdiv.style.backgroundImage = `url(${rocketList[i].img})`;
-
-    rocketContainer.append(rocketdiv);
-  }
+  rocketList.mountRockets(rocketContainer);
 };
 
 const renderRocketsAlt = () => {
@@ -64,16 +55,16 @@ const renderRocketsAlt = () => {
   if (rockets.length <= 0) return;
 
   rockets.forEach((rocket, i) => {
-    rocket.style.transform = "translateY(-" + rocketList[i].alt + "px)";
+    rocket.style.transform = "translateY(-" + rocketList.list[i].alt + "px)";
   });
 };
 
 const gameOver = () => {
   modalOpen(modalGameOver);
   let highestAlt;
-  for (let i = 0; i < rocketList.length; i += 1) {
-    if (rocketList[i].alt >= (highestAlt?.alt || 0)) {
-      highestAlt = rocketList[i];
+  for (let i = 0; i < rocketList.size; i += 1) {
+    if (rocketList.list[i].alt >= (highestAlt?.alt || 0)) {
+      highestAlt = rocketList.list[i];
     }
   }
 
@@ -86,10 +77,11 @@ const gameOver = () => {
 };
 
 const resetGame = () => {
-  for (let i = 0; i < rocketList.length; i++) {
-    rocketList[i].alt = GAME_SETTINGS_DEFAULTS.rocketAltitude;
+  for (let i = 0; i < rocketList.size; i++) {
+    rocketList.list[i].alt = GAME_SETTINGS_DEFAULTS.rocketAltitude;
   }
 
+  progressbar.reset();
   setGameState(GameStates.notStarted);
   renderRocketsAlt();
 };
@@ -105,16 +97,19 @@ const autoPlay = () => {
 
     getNextGameTurn();
   }, 300);
+  2;
 };
 
 const getNextGameTurn = () => {
-  const valueExceeded = rocketList.some((roc) => roc.alt > finishLine);
+  const valueExceeded = rocketList.list.some((roc) => roc.alt > finishLine);
 
   if (GAME_STATE.gameStatus === GameStates.notStarted) {
     setGameState(GameStates.started);
   }
 
-  rocketList.forEach((rocket) => rocket.flyUp());
+  const highestAlt = rocketList.flyAllRockets();
+  console.log(highestAlt);
+  progressbar.set(highestAlt);
   renderRocketsAlt();
 
   if (valueExceeded) {
@@ -124,10 +119,8 @@ const getNextGameTurn = () => {
 };
 
 const setupGame = () => {
-  new ProgressBar(document.querySelector(".progress-bar"), 0);
-
   bindSettingsListeners();
-  addRocketToList();
+  addRocket();
   renderRocketsAlt();
   const currentBgImageIndex = GAME_SETTINGS.spaceImageIndex;
   const image = spaceImages[currentBgImageIndex];
@@ -160,12 +153,12 @@ buttonHighscore.addEventListener("click", () => {
 buttonResetHighscore.addEventListener("click", resetHighscores);
 
 buttonAddRocket.addEventListener("click", () => {
-  addRocketToList();
+  addRocket();
   renderHighscores();
 });
 
-buttonCloseModalRename.addEventListener("click", () => {
-  modalClose(modalRename);
+buttonCloseModalSettingsRocket.addEventListener("click", () => {
+  modalClose(modalSettingsRocket);
 });
 
 buttonAutoPlay.addEventListener("click", autoPlay);

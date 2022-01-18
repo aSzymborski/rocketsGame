@@ -1,5 +1,6 @@
 import { HIGHSCORE_LS_KEY } from "./constants.js";
-import { rocketList } from "./script.js";
+import { rocketList } from "./rocket-list/RocketList.class.js";
+
 import { loadFromLs, saveInLs } from "./utils.js";
 
 const scoreBoard = document.querySelector(".score-board");
@@ -17,7 +18,7 @@ const addPoints = (id, highscores) => {
       };
     }
   }
-  console.log(highscores);
+
   return highscores;
 };
 
